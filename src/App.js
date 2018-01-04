@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
-import CurrenciesList from './components/currencies-list'
-import SelectCurrencies from './components/select-currencies'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { applyMiddleware } from 'redux'
+
+import rootReducer from './reducers/root-reducer'
+import MonitoringContainer from './components/monitoring-container'
+import middleware from './middleware/middleware'
 import './App.css'
-import { SocketProvider } from 'socket.io-react'
-import io from 'socket.io-client'
+
 
 // const socket = io.connect('https://streamer.cryptocompare.com/');
 // socket.on('message', msg => console.log(msg));
@@ -15,24 +19,19 @@ import io from 'socket.io-client'
 //   console.log(message);
 // })
 
+let store = createStore(rootReducer, applyMiddleware(middleware));
+
 
 
 class App extends Component {
 
   render() {
-
-
     return (
-      // <SocketProvider socket={socket}>
-        <div className="App">
-          <SelectCurrencies></SelectCurrencies>
-
-          {/* <CurrenciesList></CurrenciesList> */}
-
-        </div>
-      // </SocketProvider>
+      <Provider store={ store }>
+        <MonitoringContainer></MonitoringContainer>
+      </Provider>
     );
   }
 }
 
-export default App;
+export default App
