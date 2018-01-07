@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-import Col  from 'react-bootstrap/lib/Col'
-import Row  from 'react-bootstrap/lib/Row'
+import Col from 'react-bootstrap/lib/Col'
+import Row from 'react-bootstrap/lib/Row'
+import Button from 'react-bootstrap/lib/Button'
+import Modal from 'react-bootstrap/lib/Modal'
+import CoinsTable from './coinsTable'
 
 
 export default class SelectCurrencies extends Component {
@@ -8,37 +11,51 @@ export default class SelectCurrencies extends Component {
         this.props.getCurrenciesList();
     }
 
+    selectCurrencies() {
+        // Todo: add select action with array of currencies
+        console.log('Select action');
+    }
+
     render() {
         const currencies = this.props.currenciesInfo;
-        
-        if (!currencies) {
+        const isCurrenciesModal = this.props.selectCurrenciesModal;
+        const modalAction = this.props.selectCurrenciesModalToggle;
+
+        if (!currencies || (isCurrenciesModal == undefined)) {
             return <h4> Loading... </h4>
         } else {
-            console.log(currencies);
+            // console.log(isCurrenciesModal );
             return (
-                <Row>
-                        <div className="">
-                            <div className="">
-                                <div className="currencies-list">
-                                        { 
-                                            Object.keys(currencies).map( coin => {
-                                                const currentCoin = currencies[coin];
+                <div>
+                    <Button
+                        bsStyle="primary"
+                        bsSize="large"
+                        onClick={() => { modalAction(isCurrenciesModal) }}
+                    >
+                        Select currencies for monitoring
+                    </Button>
 
-                                                return (
-                                                    <Col md={ 2 }  key={ currentCoin['Id'] } style={{ 'text-align': 'center', margin: '25px 0px', 'min-height': '120px' }}>
-                                                        <div style={{ 'text-align': 'center' }}>
-                                                            <img src={ `https://www.cryptocompare.com/${currentCoin.ImageUrl}` } width="30px" height="auto"/>
-                                                        </div>
-                                                        {/* <input type="checkbox" id={ currentCoin['Id'] }  name="coins" value={ currentCoin['FullName'] }/> */}
-                                                        <label htmlFor={ currentCoin['Id'] }>{ currentCoin['FullName'] }</label>
-                                                    </Col>
-                                                )
-                                            })
-                                        }
-                                </div>
-                            </div>
-                            </div>
-                </Row>
+                    <Modal show={isCurrenciesModal} onHide={() => { modalAction(isCurrenciesModal) }}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Select currencies</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Row>
+                                <div className="">
+                                    <div className="">
+                                        <div className="currencies-list">
+                                            <CoinsTable currencies={ currencies } ></CoinsTable>
+                                        </div>
+                                    </div>
+                                    </div>
+                            </Row>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={() => { this.selectCurrencies() }}>Select currencies</Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+
             )
         }
 
@@ -47,33 +64,3 @@ export default class SelectCurrencies extends Component {
 
 
 }
-
-
-// export default SelectCurrencies extends Component {
-//     // componentWillMount() {
-//     //     fetch('https://min-api.cryptocompare.com/data/all/coinlist')
-//     //     .then( r => r.json() )
-//     //     .then( data => {
-        
-//     //       if(data.Response === 'Success') {
-//     //         console.log(data.Data);
-            
-    
-    
-//     //       } else {
-//     //         throw `Response status ${ data.Response }`
-//     //       }
-    
-//     //     })
-//     //     .catch(function(err) {
-//     //       throw "Connection error"
-//     //     });
-    
-    
-//     //   }
-// //     render() {
-// //         return (
-// // <h1></h1>
-// //         )
-// //     }
-// }

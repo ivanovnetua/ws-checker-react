@@ -8,7 +8,7 @@ import Grid  from 'react-bootstrap/lib/Grid'
 
 import CurrenciesList from '../components/currencies-list'
 import SelectCurrencies from '../components/select-currencies'
-import { getCurrenciesListAction } from '../actions/app-actions.js'
+import { getCurrenciesListAction, selectCurrenciesModalAction } from '../actions/app-actions'
 
 class MonitoringContainer extends Component {
     render() {
@@ -19,6 +19,8 @@ class MonitoringContainer extends Component {
                         <SelectCurrencies 
                                 getCurrenciesList={ this.props.getCurrenciesList }
                                 currenciesInfo={ this.props.currenciesInfo }
+                                selectCurrenciesModal = { this.props.selectCurrenciesModalView }
+                                selectCurrenciesModalToggle = { this.props.selectCurrenciesModalToggle }
                         ></SelectCurrencies>
                     </Grid>
                     {/* <CurrenciesList></CurrenciesList> */}
@@ -35,13 +37,13 @@ export default connect(
     (state) => {
 
         return {
-            currenciesInfo: state.getCurrenciesList.currenciesInfo
+            currenciesInfo: state.selectCurrencies.currenciesInfo,
+            selectCurrenciesModalView: state.selectCurrencies.selectCurrenciesModalView || false,
         }
-  }, 
-  (dispatch) => {
+    }, (dispatch) => {
 
         return {
-            getCurrenciesList: bindActionCreators(getCurrenciesListAction, dispatch)
-        
+            getCurrenciesList: bindActionCreators(getCurrenciesListAction, dispatch),
+            selectCurrenciesModalToggle: bindActionCreators(selectCurrenciesModalAction, dispatch) 
         }
-  })(MonitoringContainer);
+    })(MonitoringContainer);

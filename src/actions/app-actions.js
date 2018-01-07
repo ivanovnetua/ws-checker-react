@@ -11,3 +11,10 @@ export const getCurrenciesListAction = () => {
     }
 };
 
+export const selectCurrenciesModalAction = (current) => {
+
+    return {
+        type: "CURRENCIES_MODAL_ACTION", 
+        selectCurrenciesModalView: !current
+    }
+};

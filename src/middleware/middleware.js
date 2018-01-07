@@ -3,7 +3,7 @@ export default function rootMiddleWare( store ) {
         return function(action) {
 
             switch (action.type) {
-                case 'GET_CURRENCIES_LIST': {
+                case 'GET_CURRENCIES_LIST': 
                     fetch(action.message)
                     .then( r => r.json() )
                     .then( data => {
@@ -23,7 +23,7 @@ export default function rootMiddleWare( store ) {
                     });
                     
                     break;
-                };
+
                 default: next(action)
 
             }
