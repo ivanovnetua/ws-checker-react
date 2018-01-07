@@ -18,3 +18,18 @@ export const selectCurrenciesModalAction = (current) => {
         selectCurrenciesModalView: !current
     }
 };
+
+export const addCurrencyToListAction = (selectedCurrency) => {
+
+    return {
+        type: "ADD_CURRENCY_TO_LIST", 
+        selectedCurrencies: selectedCurrency
+    }
+};
+
+export const findPairChainsAction = (selectedCurrencies) => {
+    return {
+        type: "SELECT_PAIR_CHAINS",
+        findPairChains: selectedCurrencies
+    }
+};

@@ -8,7 +8,7 @@ import Grid  from 'react-bootstrap/lib/Grid'
 
 import CurrenciesList from '../components/currencies-list'
 import SelectCurrencies from '../components/select-currencies'
-import { getCurrenciesListAction, selectCurrenciesModalAction } from '../actions/app-actions'
+import { getCurrenciesListAction, selectCurrenciesModalAction, addCurrencyToListAction, findPairChainsAction } from '../actions/app-actions'
 
 class MonitoringContainer extends Component {
     render() {
@@ -21,6 +21,9 @@ class MonitoringContainer extends Component {
                                 currenciesInfo={ this.props.currenciesInfo }
                                 selectCurrenciesModal = { this.props.selectCurrenciesModalView }
                                 selectCurrenciesModalToggle = { this.props.selectCurrenciesModalToggle }
+                                selectedCurrencies = { this.props.selectedCurrencies }
+                                addCurrencyToList = { this.props.addCurrencyToList }
+                                findPairChains = { this.props.findPairChains }
                         ></SelectCurrencies>
                     </Grid>
                     {/* <CurrenciesList></CurrenciesList> */}
@@ -39,11 +42,15 @@ export default connect(
         return {
             currenciesInfo: state.selectCurrencies.currenciesInfo,
             selectCurrenciesModalView: state.selectCurrencies.selectCurrenciesModalView || false,
+            selectedCurrencies: state.selectCurrencies.selectedCurrencies,
+            findedPairChains: state.getPairChains.findedPairChains
         }
     }, (dispatch) => {
 
         return {
             getCurrenciesList: bindActionCreators(getCurrenciesListAction, dispatch),
-            selectCurrenciesModalToggle: bindActionCreators(selectCurrenciesModalAction, dispatch) 
+            selectCurrenciesModalToggle: bindActionCreators(selectCurrenciesModalAction, dispatch),
+            addCurrencyToList: bindActionCreators(addCurrencyToListAction, dispatch),
+            findPairChains: bindActionCreators(findPairChainsAction, dispatch)
         }
     })(MonitoringContainer);

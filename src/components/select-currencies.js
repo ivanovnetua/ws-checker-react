@@ -11,20 +11,14 @@ export default class SelectCurrencies extends Component {
         this.props.getCurrenciesList();
     }
 
-    selectCurrencies() {
-        // Todo: add select action with array of currencies
-        console.log('Select action');
-    }
-
     render() {
         const currencies = this.props.currenciesInfo;
         const isCurrenciesModal = this.props.selectCurrenciesModal;
         const modalAction = this.props.selectCurrenciesModalToggle;
 
-        if (!currencies || (isCurrenciesModal == undefined)) {
+        if (!currencies || (isCurrenciesModal == undefined) || (this.props.selectedCurrencies == undefined)) {
             return <h4> Loading... </h4>
         } else {
-            // console.log(isCurrenciesModal );
             return (
                 <div>
                     <Button
@@ -44,23 +38,28 @@ export default class SelectCurrencies extends Component {
                                 <div className="">
                                     <div className="">
                                         <div className="currencies-list">
-                                            <CoinsTable currencies={ currencies } ></CoinsTable>
+                                            <CoinsTable
+                                                currencies={ currencies }
+                                                selectCurrency={ this.props.addCurrencyToList }
+                                                selectedCurrencies={ this.props.selectedCurrencies }
+                                            ></CoinsTable>
                                         </div>
                                     </div>
-                                    </div>
+                                </div>
                             </Row>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button onClick={() => { this.selectCurrencies() }}>Select currencies</Button>
+                            <Button 
+                                bsStyle={ this.props.selectedCurrencies.length > 0 ? 'primary' : 'default' }
+                                disabled={ this.props.selectedCurrencies.length == 0 }
+                                onClick={ () => this.props.findPairChains(this.props.selectedCurrencies) }
+                            >NEXT STEP</Button>
                         </Modal.Footer>
                     </Modal>
                 </div>
-
             )
         }
 
-
     }
-
 
 }
