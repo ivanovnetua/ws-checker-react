@@ -29,7 +29,7 @@ export const addCurrencyToListAction = (selectedCurrency) => {
 
 export const findPairChainsAction = (selectedCurrencies) => {
     return {
-        type: "SELECT_PAIR_CHAINS",
+        type: "FIND_PAIR_CHAINS",
         findPairChains: selectedCurrencies
     }
 };

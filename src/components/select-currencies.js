@@ -50,8 +50,8 @@ export default class SelectCurrencies extends Component {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button 
-                                bsStyle={ this.props.selectedCurrencies.length > 0 ? 'primary' : 'default' }
-                                disabled={ this.props.selectedCurrencies.length == 0 }
+                                bsStyle={ this.props.selectedCurrencies.length > 1 ? 'primary' : 'default' }
+                                disabled={ this.props.selectedCurrencies.length < 2 }
                                 onClick={ () => this.props.findPairChains(this.props.selectedCurrencies) }
                             >NEXT STEP</Button>
                         </Modal.Footer>

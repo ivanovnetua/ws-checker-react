@@ -1,3 +1,8 @@
+import { CONSTANTS } from '../constants/constants'
+import _reject from 'lodash/reject'
+
+let { getCurrenciesListUrl } = CONSTANTS;
+
 export default function rootMiddleWare( store ) {
     return function(next) {
         return function(action) {
@@ -23,6 +28,25 @@ export default function rootMiddleWare( store ) {
                     });
                     
                     break;
+
+                case 'FIND_PAIR_CHAINS': 
+                    let urls = action.findPairChains.map(pair => {
+                        const objWithoutPair = _reject(action.findPairChains, (item) => item.Name == pair.Name);
+                        const arrWithoutPair = objWithoutPair.map(item => item.Name);
+
+                        return CONSTANTS.getPairFullInfo(arrWithoutPair, pair.Name);
+                    
+                    });
+
+                    Promise.all(urls.map(url =>
+                        fetch(url).then(resp => resp.text())
+                    )).then(result => {
+                        let newAction = { ...action, findPairChains: result }
+                        let newResult = next(newAction);      
+                    }).catch(function(err) {
+                        // Todo: try to reload page pop-up
+                        alert("Connection error")
+                    });
 
                 default: next(action)
 

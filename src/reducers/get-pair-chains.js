@@ -1,6 +1,9 @@
 export default function getPairChains (state = {}, action) {
 
-    if (action.type === 'SELECT_PAIR_CHAINS') {
+    console.log(state, action);
+
+    if (action.type === 'FIND_PAIR_CHAINS') {
+        console.log(action.findPairChains);
         return { ...state, findedPairChains: action.findPairChains }
     }
 
