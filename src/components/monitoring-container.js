@@ -24,6 +24,8 @@ class MonitoringContainer extends Component {
                                 selectedCurrencies = { this.props.selectedCurrencies }
                                 addCurrencyToList = { this.props.addCurrencyToList }
                                 findPairChains = { this.props.findPairChains }
+                                findedPairChains = { this.props.findedPairChains }
+                                modalStepActive = { this.props.modalStepActive }
                         ></SelectCurrencies>
                     </Grid>
                     {/* <CurrenciesList></CurrenciesList> */}
@@ -43,7 +45,8 @@ export default connect(
             currenciesInfo: state.selectCurrencies.currenciesInfo,
             selectCurrenciesModalView: state.selectCurrencies.selectCurrenciesModalView || false,
             selectedCurrencies: state.selectCurrencies.selectedCurrencies,
-            findedPairChains: state.getPairChains.findedPairChains
+            findedPairChains: state.getPairChains.findedPairChains,
+            modalStepActive: state.changeSteps.modalStepActive,
         }
     }, (dispatch) => {
 
@@ -51,6 +54,6 @@ export default connect(
             getCurrenciesList: bindActionCreators(getCurrenciesListAction, dispatch),
             selectCurrenciesModalToggle: bindActionCreators(selectCurrenciesModalAction, dispatch),
             addCurrencyToList: bindActionCreators(addCurrencyToListAction, dispatch),
-            findPairChains: bindActionCreators(findPairChainsAction, dispatch)
+            findPairChains: bindActionCreators(findPairChainsAction, dispatch),
         }
     })(MonitoringContainer);

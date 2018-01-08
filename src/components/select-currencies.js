@@ -4,6 +4,8 @@ import Row from 'react-bootstrap/lib/Row'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import CoinsTable from './coinsTable'
+import FirstStep from './first-step'
+import SecondStep from './second-step'
 
 
 export default class SelectCurrencies extends Component {
@@ -30,31 +32,22 @@ export default class SelectCurrencies extends Component {
                     </Button>
 
                     <Modal show={isCurrenciesModal} onHide={() => { modalAction(isCurrenciesModal) }}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Select currencies</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Row>
-                                <div className="">
-                                    <div className="">
-                                        <div className="currencies-list">
-                                            <CoinsTable
-                                                currencies={ currencies }
-                                                selectCurrency={ this.props.addCurrencyToList }
-                                                selectedCurrencies={ this.props.selectedCurrencies }
-                                            ></CoinsTable>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Row>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button 
-                                bsStyle={ this.props.selectedCurrencies.length > 1 ? 'primary' : 'default' }
-                                disabled={ this.props.selectedCurrencies.length < 2 }
-                                onClick={ () => this.props.findPairChains(this.props.selectedCurrencies) }
-                            >NEXT STEP</Button>
-                        </Modal.Footer>
+                        { this.props.modalStepActive == 1 ? 
+                            <FirstStep 
+                                currencies={ currencies }
+                                addCurrencyToList={ this.props.addCurrencyToList }
+                                selectedCurrencies={ this.props.selectedCurrencies }
+                                findPairChains = { this.props.findPairChains }
+                            ></FirstStep> 
+                            : null
+                        }
+
+                        { this.props.modalStepActive == 2 ? 
+                            <SecondStep
+                                findedPairChains ={ this.props.findedPairChains }>
+                            </SecondStep>
+                            : null
+                        }
                     </Modal>
                 </div>
             )

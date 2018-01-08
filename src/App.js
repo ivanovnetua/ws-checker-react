@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import { applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 
 import rootReducer from './reducers/root-reducer'
 import MonitoringContainer from './components/monitoring-container'
@@ -19,9 +20,7 @@ import './App.css'
 //   console.log(message);
 // })
 
-let store = createStore(rootReducer, applyMiddleware(middleware));
-
-
+let store = createStore(rootReducer, applyMiddleware(middleware, thunk));
 
 class App extends Component {
 

@@ -28,8 +28,19 @@ export const addCurrencyToListAction = (selectedCurrency) => {
 };
 
 export const findPairChainsAction = (selectedCurrencies) => {
+    return dispatch => {
+        dispatch({
+            type: "FIND_PAIR_CHAINS",
+            findPairChains: selectedCurrencies
+        })
+
+        dispatch(changeModalStepAction(2))
+    }
+};
+
+export const changeModalStepAction = (stepNumber) => {
     return {
-        type: "FIND_PAIR_CHAINS",
-        findPairChains: selectedCurrencies
+        type: "CHANGE_MODAL_STEPS",
+        modalStepActive: stepNumber
     }
 };
