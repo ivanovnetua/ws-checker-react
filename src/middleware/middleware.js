@@ -48,6 +48,8 @@ export default function rootMiddleWare( store ) {
                         alert("Connection error")
                     });
 
+                    break;
+
                 default: next(action)
 
             }
