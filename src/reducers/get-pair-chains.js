@@ -4,13 +4,13 @@ import _uniq from 'lodash/uniq'
 
 export default function getPairChains (state = {}, action) {
 
-    console.log(state, action);
+    // console.log(state, action);
 
     if (action.type === 'FIND_PAIR_CHAINS') {
+        const regexp = /^(5~CCCAGG)~([a-zA-Z]{3,})~([a-zA-Z]{3,})/;
 
         const rawChains = action.findPairChains.map(item => {
             const parsedObj = JSON.parse(item);
-            
             let keyArray = [];
             let ArrayPairs = []
 
@@ -20,17 +20,19 @@ export default function getPairChains (state = {}, action) {
             }
 
             return ArrayPairs
-            
         });
 
         const pairs = _uniq(_flattenDeep(rawChains));
+        const pairsNames = pairs.map(pair => {
+            let findedElement = pair.match(regexp);
 
-        //Format: 5~CCCAGG~ETH~BTC
+            return `${findedElement[2]}-${findedElement[3]}`;
+        })
 
-        return { ...state, findedPairChains: pairs }
+        return { ...state, findedPairChains: pairs, findedPairNames: pairsNames }
          
     }
 
 
     return state
-} 
+}

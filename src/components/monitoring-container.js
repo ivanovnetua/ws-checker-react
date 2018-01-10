@@ -45,7 +45,7 @@ export default connect(
             currenciesInfo: state.selectCurrencies.currenciesInfo,
             selectCurrenciesModalView: state.selectCurrencies.selectCurrenciesModalView || false,
             selectedCurrencies: state.selectCurrencies.selectedCurrencies,
-            findedPairChains: state.getPairChains.findedPairChains,
+            findedPairChains: state.getPairChains.findedPairNames,
             modalStepActive: state.changeSteps.modalStepActive,
         }
     }, (dispatch) => {
