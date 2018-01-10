@@ -9,8 +9,17 @@ import Table from 'react-bootstrap/lib/Table'
 
 export default class SecondStep extends Component {
 
-    render() {
+    selectRow(e, pair) {
+        let pairName = Object.keys(pair)[0];
+        if(e.target !== this.refs[pairName]) {
+            this.refs[pairName].checked = !this.refs[pairName].checked;
+        }
 
+        this.props.selectPairs(pair);
+
+    }
+
+    render() {
         if(this.props.findedPairChains ) {
             return (
                 <div className="step-2">
@@ -25,9 +34,12 @@ export default class SecondStep extends Component {
                                         <Table striped bordered condensed hover responsive>
                                             <tbody>
                                                 {
-                                                    this.props.findedPairChains.map(coin => {
+                                                    Object.keys(this.props.findedPairChains).map(coin => {
+                                                        let pairObj = {};
+                                                        pairObj[coin] = this.props.findedPairChains[coin];
+
                                                         return (
-                                                            <tr key={coin}>
+                                                            <tr key={coin} onClick={ (e) => { this.selectRow(e, pairObj) } }>
                                                                 <td style={{ textAlign: 'center' }}>
                                                                     <input type='checkbox' value={ coin } ref={ coin } />
                                                                 </td>
@@ -47,10 +59,10 @@ export default class SecondStep extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button 
-                            // bsStyle={ this.props.selectedCurrencies.length > 1 ? 'primary' : 'default' }
-                            // disabled={ this.props.selectedCurrencies.length < 2 }
-                            // onClick={ () => this.props.findPairChains(this.props.selectedCurrencies) }
-                        >NEXT STEP</Button>
+                            bsStyle={ this.props.selectedPairs.length > 0 ? 'primary' : 'default' }
+                            disabled={ this.props.selectedPairs.length == 0 }
+                            onClick={ () => this.props.displayResults(this.props.selectedPairs) }
+                        >Start using</Button>
                     </Modal.Footer>
                 </div>
             )} else {

@@ -8,7 +8,14 @@ import Grid  from 'react-bootstrap/lib/Grid'
 
 import CurrenciesList from '../components/currencies-list'
 import SelectCurrencies from '../components/select-currencies'
-import { getCurrenciesListAction, selectCurrenciesModalAction, addCurrencyToListAction, findPairChainsAction } from '../actions/app-actions'
+import { 
+        getCurrenciesListAction, 
+        selectCurrenciesModalAction, 
+        addCurrencyToListAction, 
+        findPairChainsAction,
+        addPairsToListAction,
+        displayResultsAction
+} from '../actions/app-actions'
 
 class MonitoringContainer extends Component {
     render() {
@@ -26,6 +33,9 @@ class MonitoringContainer extends Component {
                                 findPairChains = { this.props.findPairChains }
                                 findedPairChains = { this.props.findedPairChains }
                                 modalStepActive = { this.props.modalStepActive }
+                                addPairsToList = { this.props.addPairsToList }
+                                selectedPairs = { this.props.selectedPairs }
+                                displayResults = { this.props.displayResults }
                         ></SelectCurrencies>
                     </Grid>
                     {/* <CurrenciesList></CurrenciesList> */}
@@ -40,13 +50,13 @@ class MonitoringContainer extends Component {
 
 export default connect(
     (state) => {
-
         return {
             currenciesInfo: state.selectCurrencies.currenciesInfo,
             selectCurrenciesModalView: state.selectCurrencies.selectCurrenciesModalView || false,
             selectedCurrencies: state.selectCurrencies.selectedCurrencies,
-            findedPairChains: state.getPairChains.findedPairNames,
+            findedPairChains: state.getPairChains.findedPairs,
             modalStepActive: state.changeSteps.modalStepActive,
+            selectedPairs: state.pairsResult.selectedPairs
         }
     }, (dispatch) => {
 
@@ -55,5 +65,7 @@ export default connect(
             selectCurrenciesModalToggle: bindActionCreators(selectCurrenciesModalAction, dispatch),
             addCurrencyToList: bindActionCreators(addCurrencyToListAction, dispatch),
             findPairChains: bindActionCreators(findPairChainsAction, dispatch),
+            addPairsToList: bindActionCreators(addPairsToListAction, dispatch),
+            displayResults: bindActionCreators(displayResultsAction, dispatch),
         }
     })(MonitoringContainer);

@@ -74,3 +74,21 @@ export const changeModalStepAction = (stepNumber) => {
         modalStepActive: stepNumber
     }
 };
+
+export const addPairsToListAction = (pair) => {
+    return dispatch => {
+       dispatch({
+            type: "ADD_PAIR_TO_LIST",
+            selectedPair: pair
+       })
+    }
+};
+
+export const displayResultsAction = (pairs) => {
+    return dispatch => {
+       dispatch({
+            type: "DISPLAY_RESULTS",
+            pairsForDisplay: pairs
+       })
+    }
+};

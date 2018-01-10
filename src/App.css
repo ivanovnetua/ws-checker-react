@@ -17,3 +17,14 @@
   overflow-y: auto;
   border: none;
 }
+
+.select-settings-section {
+  text-align: center;
+  font-size: 25px;
+  margin: 30px
+
+}
+
+.select-settings-section p {
+  margin: 15px
+}

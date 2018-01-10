@@ -23,13 +23,13 @@ export default function getPairChains (state = {}, action) {
         });
 
         const pairs = _uniq(_flattenDeep(rawChains));
-        const pairsNames = pairs.map(pair => {
+        const pairsObj = {};
+        pairs.forEach(pair => {
             let findedElement = pair.match(regexp);
-
-            return `${findedElement[2]}-${findedElement[3]}`;
+            pairsObj[`${findedElement[2]}-${findedElement[3]}`] = pair;
         })
 
-        return { ...state, findedPairChains: pairs, findedPairNames: pairsNames }
+        return { ...state, findedPairs: pairsObj }
          
     }
 

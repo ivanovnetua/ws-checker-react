@@ -3,6 +3,7 @@ import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
+import Grid  from 'react-bootstrap/lib/Grid'
 import CoinsTable from './coinsTable'
 import FirstStep from './first-step'
 import SecondStep from './second-step'
@@ -22,7 +23,8 @@ export default class SelectCurrencies extends Component {
             return <h4> Loading... </h4>
         } else {
             return (
-                <div>
+                <Grid className="select-settings-section">
+                    <p> For using application select setting firstime </p>
                     <Button
                         bsStyle="primary"
                         bsSize="large"
@@ -44,12 +46,15 @@ export default class SelectCurrencies extends Component {
 
                         { this.props.modalStepActive == 2 ? 
                             <SecondStep
-                                findedPairChains ={ this.props.findedPairChains }>
-                            </SecondStep>
+                                findedPairChains ={ this.props.findedPairChains }
+                                selectPairs={ this.props.addPairsToList }
+                                selectedPairs = { this.props.selectedPairs }
+                                displayResults = { this.props.displayResults }
+                                ></SecondStep>
                             : null
                         }
                     </Modal>
-                </div>
+                </Grid>
             )
         }
 
