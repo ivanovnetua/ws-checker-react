@@ -1,40 +1,70 @@
-import { CONSTANTS } from '../constants/constants'
-
-let { getCurrenciesListUrl } = CONSTANTS;
+import _reject from 'lodash/reject'
+import { resourses } from '../resourses/resourses'
 
 export const getCurrenciesListAction = () => {
-    const url = getCurrenciesListUrl;
 
-    return {
-        type: "GET_CURRENCIES_LIST", 
-        message: url
-    }
+    return dispatch => {
+        resourses.getCoinsList()
+        .then(r => r.json())
+        .then( data => {
+            if(data.Response === 'Success') {
+                dispatch({
+                    type: "GET_CURRENCIES_LIST", 
+                    message: data.Data 
+                })
+            } else {
+                // Todo: try to reload page pop-up
+                alert(`Response status ${ data.Response }`)
+            }
+        })
+        .catch(function(err) {
+                // Todo: try to reload page pop-up
+                alert("Connection error")
+            });
+        }
 };
 
 export const selectCurrenciesModalAction = (current) => {
-
-    return {
-        type: "CURRENCIES_MODAL_ACTION", 
-        selectCurrenciesModalView: !current
+    return dispatch => {
+        dispatch({
+            type: "CURRENCIES_MODAL_ACTION", 
+            selectCurrenciesModalView: !current
+        })
     }
 };
 
 export const addCurrencyToListAction = (selectedCurrency) => {
-
-    return {
-        type: "ADD_CURRENCY_TO_LIST", 
-        selectedCurrencies: selectedCurrency
+    return dispatch => {
+        dispatch({
+            type: "ADD_CURRENCY_TO_LIST", 
+            selectedCurrencies: selectedCurrency
+        })
     }
 };
 
 export const findPairChainsAction = (selectedCurrencies) => {
     return dispatch => {
-        dispatch({
-            type: "FIND_PAIR_CHAINS",
-            findPairChains: selectedCurrencies
-        })
+        let promises = selectedCurrencies.map(pair => {
+            const objWithoutPair = _reject(selectedCurrencies, (item) => item.Name == pair.Name);
+            const arrWithoutPair = objWithoutPair.map(item => item.Name);
 
-        dispatch(changeModalStepAction(2))
+            return resourses.getPairFullInfo(arrWithoutPair, pair.Name);
+        });
+
+        Promise.all(promises.map(promise =>
+            promise.then(resp => resp.text())
+        )).then(result => {
+            dispatch({
+                type: "FIND_PAIR_CHAINS",
+                findPairChains: result
+            })
+            dispatch(changeModalStepAction(2))
+
+        }).catch(function(err) {
+            // Todo: try to reload page pop-up
+            alert("Connection error")
+        });
+
     }
 };
 

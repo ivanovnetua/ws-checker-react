@@ -6,7 +6,6 @@ import thunk from 'redux-thunk'
 
 import rootReducer from './reducers/root-reducer'
 import MonitoringContainer from './components/monitoring-container'
-import middleware from './middleware/middleware'
 import './App.css'
 
 
@@ -20,7 +19,7 @@ import './App.css'
 //   console.log(message);
 // })
 
-let store = createStore(rootReducer, applyMiddleware(middleware, thunk));
+let store = createStore(rootReducer, applyMiddleware(thunk));
 
 class App extends Component {
 

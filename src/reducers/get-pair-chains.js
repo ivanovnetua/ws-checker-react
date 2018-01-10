@@ -4,7 +4,7 @@ import _uniq from 'lodash/uniq'
 
 export default function getPairChains (state = {}, action) {
 
-    // console.log(state, action);
+    console.log(state, action);
 
     if (action.type === 'FIND_PAIR_CHAINS') {
 
