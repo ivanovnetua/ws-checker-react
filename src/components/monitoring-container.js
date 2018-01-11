@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { SocketProvider } from 'socket.io-react'
-import io from 'socket.io-client'
 import Grid  from 'react-bootstrap/lib/Grid'
 
 
@@ -14,13 +13,20 @@ import {
         addCurrencyToListAction, 
         findPairChainsAction,
         addPairsToListAction,
-        displayResultsAction
+        displayResultsAction,
+        callWsAction
 } from '../actions/app-actions'
 
+
+
 class MonitoringContainer extends Component {
+    componentWillMount() {
+        // this.props.callWs();
+    }
+
     render() {
         return (
-            // <SocketProvider socket={socket}>
+            <SocketProvider socket={ this.props.socket}>
                 <div className="App">
                     <Grid>
                         <SelectCurrencies 
@@ -40,7 +46,7 @@ class MonitoringContainer extends Component {
                     </Grid>
                     {/* <CurrenciesList></CurrenciesList> */}
                 </div>
-            // </SocketProvider>
+            </SocketProvider>
         )
     }
 
@@ -50,13 +56,15 @@ class MonitoringContainer extends Component {
 
 export default connect(
     (state) => {
+        console.log(state)
         return {
             currenciesInfo: state.selectCurrencies.currenciesInfo,
             selectCurrenciesModalView: state.selectCurrencies.selectCurrenciesModalView || false,
             selectedCurrencies: state.selectCurrencies.selectedCurrencies,
             findedPairChains: state.getPairChains.findedPairs,
             modalStepActive: state.changeSteps.modalStepActive,
-            selectedPairs: state.pairsResult.selectedPairs
+            selectedPairs: state.pairsResult.selectedPairs,
+            // socket: state.websocket.socketConnect
         }
     }, (dispatch) => {
 
@@ -67,5 +75,6 @@ export default connect(
             findPairChains: bindActionCreators(findPairChainsAction, dispatch),
             addPairsToList: bindActionCreators(addPairsToListAction, dispatch),
             displayResults: bindActionCreators(displayResultsAction, dispatch),
+            callWsAction: bindActionCreators(callWsAction, dispatch)
         }
     })(MonitoringContainer);

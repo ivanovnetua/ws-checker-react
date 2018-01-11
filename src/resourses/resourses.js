@@ -4,7 +4,8 @@ export const resourses =  {
     },
     getPairFullInfo(from, to) {
         return fetch(`https://min-api.cryptocompare.com/data/subsWatchlist?fsyms=${from}&tsym=${to}`)
-    }
+    },
+    websoketUrl: 'https://streamer.cryptocompare.com/'
 }
 
 

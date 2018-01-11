@@ -1,4 +1,5 @@
 import _reject from 'lodash/reject'
+import _values from 'lodash/values'
 import { resourses } from '../resourses/resourses'
 
 export const getCurrenciesListAction = () => {
@@ -85,10 +86,44 @@ export const addPairsToListAction = (pair) => {
 };
 
 export const displayResultsAction = (pairs) => {
+    return (dispatch, getState) => {
+    //    dispatch({
+    //         type: "DISPLAY_RESULTS",
+    //         pairsForDisplay: pairs
+    //    })
+    let chanels = pairs.map(pair => {
+        return _values(pair).join();
+    })
+    dispatch(subscribeToWS(chanels));
+    dispatch(wsListener());
+
+    }
+};
+
+export const callWsAction = () => {
     return dispatch => {
        dispatch({
-            type: "DISPLAY_RESULTS",
-            pairsForDisplay: pairs
+            type: "INITIATE_WEBSOKET",
        })
     }
+};
+
+export const subscribeToWS = (chanels) => {
+    return {
+        type: "SUBSCRIBE_TO_WS_CHANELS",
+        chanels: chanels
+    }
+};
+
+export const wsListener = () => {
+    return (dispatch, getState) => {
+        let state = getState();
+        state.websocket.socketOn(message => {
+            dispatch({
+                type: "UPDATE_WS_DATA",
+                wsData: message
+           })
+        });
+     }
+
 };
