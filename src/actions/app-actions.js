@@ -87,15 +87,13 @@ export const addPairsToListAction = (pair) => {
 
 export const displayResultsAction = (pairs) => {
     return (dispatch, getState) => {
-    //    dispatch({
-    //         type: "DISPLAY_RESULTS",
-    //         pairsForDisplay: pairs
-    //    })
-    let chanels = pairs.map(pair => {
-        return _values(pair).join();
-    })
-    dispatch(subscribeToWS(chanels));
-    dispatch(wsListener());
+        let chanels = pairs.map(pair => {
+            return _values(pair).join();
+        });
+        let state = getState();
+        dispatch(subscribeToWS(chanels));
+        dispatch(wsListener());
+        dispatch(selectCurrenciesModalAction(state.selectCurrencies.selectCurrenciesModalView));
 
     }
 };

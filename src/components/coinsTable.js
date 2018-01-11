@@ -30,9 +30,9 @@ export default class CoinsTable extends Component {
                                     <td style={{ textAlign: 'center' }}>
                                         <input type='checkbox' value={ currentCoin['Id'] } ref={ currentCoin['Id'] } />
                                     </td>
-                                    <td style={{ 'textAlign': 'center' }}>
-                                        <img src={`https://www.cryptocompare.com/${currentCoin.ImageUrl}`} width="15px" height="auto" alt={currentCoin['FullName']} />
-                                    </td>
+                                    {/* <td style={{ 'textAlign': 'center' }}>
+                                        <img src={`https://www.cryptocompare.com${currentCoin.ImageUrl}`} width="15px" height="auto" alt={currentCoin['FullName']} />
+                                    </td> */}
                                     <td style={{ textAlign: 'left', paddingLeft: '20px' }}>
                                         {currentCoin['FullName']}
                                     </td>

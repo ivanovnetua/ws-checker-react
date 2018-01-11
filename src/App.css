@@ -2,6 +2,17 @@
   border: none;
 }
 
+body { 
+  background: url('./img/background.jpeg');
+  background-size: cover;
+  background-position: 50% 30%;
+  background-repeat: no-repeat;
+  min-height: 100vh; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 7px;
@@ -20,11 +31,17 @@
 
 .select-settings-section {
   text-align: center;
-  font-size: 25px;
-  margin: 30px
+  font-size: 30px;
+  margin: 30px auto;
+  color: #fff;
 
 }
 
 .select-settings-section p {
   margin: 15px
+}
+
+.modal-backdrop.in {
+  filter: alpha(opacity=75);
+  opacity: .75;
 }

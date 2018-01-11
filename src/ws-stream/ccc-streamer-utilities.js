@@ -360,6 +360,8 @@ CCC.CURRENT.unpack = function(value)
     var maskInt = parseInt(mask,16);
     var unpackedCurrent = {};
     var currentField = 0;
+    var fld = this;
+    console.log('Field-->', fld);
     for(var property in this.FIELDS)
     {
         if(this.FIELDS[property] === 0)

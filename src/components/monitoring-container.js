@@ -7,6 +7,8 @@ import Grid  from 'react-bootstrap/lib/Grid'
 
 import CurrenciesList from '../components/currencies-list'
 import SelectCurrencies from '../components/select-currencies'
+import DisplayCurrencies from '../components/display-currencies'
+
 import { 
         getCurrenciesListAction, 
         selectCurrenciesModalAction, 
@@ -20,29 +22,32 @@ import {
 
 
 class MonitoringContainer extends Component {
-    componentWillMount() {
-        // this.props.callWs();
-    }
 
     render() {
         return (
             <SocketProvider socket={ this.props.socket}>
                 <div className="App">
                     <Grid>
+                        { this.props.currenciesUpdate ?
+                            <DisplayCurrencies
+                                currenciesUpdate = { this.props.currenciesUpdate }
+                            ></DisplayCurrencies>
+                        : 
                         <SelectCurrencies 
-                                getCurrenciesList={ this.props.getCurrenciesList }
-                                currenciesInfo={ this.props.currenciesInfo }
-                                selectCurrenciesModal = { this.props.selectCurrenciesModalView }
-                                selectCurrenciesModalToggle = { this.props.selectCurrenciesModalToggle }
-                                selectedCurrencies = { this.props.selectedCurrencies }
-                                addCurrencyToList = { this.props.addCurrencyToList }
-                                findPairChains = { this.props.findPairChains }
-                                findedPairChains = { this.props.findedPairChains }
-                                modalStepActive = { this.props.modalStepActive }
-                                addPairsToList = { this.props.addPairsToList }
-                                selectedPairs = { this.props.selectedPairs }
-                                displayResults = { this.props.displayResults }
-                        ></SelectCurrencies>
+                            getCurrenciesList={ this.props.getCurrenciesList }
+                            currenciesInfo={ this.props.currenciesInfo }
+                            selectCurrenciesModal = { this.props.selectCurrenciesModalView }
+                            selectCurrenciesModalToggle = { this.props.selectCurrenciesModalToggle }
+                            selectedCurrencies = { this.props.selectedCurrencies }
+                            addCurrencyToList = { this.props.addCurrencyToList }
+                            findPairChains = { this.props.findPairChains }
+                            findedPairChains = { this.props.findedPairChains }
+                            modalStepActive = { this.props.modalStepActive }
+                            addPairsToList = { this.props.addPairsToList }
+                            selectedPairs = { this.props.selectedPairs }
+                            displayResults = { this.props.displayResults }
+                        ></SelectCurrencies>   
+                        }
                     </Grid>
                     {/* <CurrenciesList></CurrenciesList> */}
                 </div>
@@ -56,7 +61,6 @@ class MonitoringContainer extends Component {
 
 export default connect(
     (state) => {
-        console.log(state)
         return {
             currenciesInfo: state.selectCurrencies.currenciesInfo,
             selectCurrenciesModalView: state.selectCurrencies.selectCurrenciesModalView || false,
@@ -64,7 +68,7 @@ export default connect(
             findedPairChains: state.getPairChains.findedPairs,
             modalStepActive: state.changeSteps.modalStepActive,
             selectedPairs: state.pairsResult.selectedPairs,
-            // socket: state.websocket.socketConnect
+            currenciesUpdate: state.displayResults.currenciesUpdate
         }
     }, (dispatch) => {
 
