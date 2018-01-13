@@ -1,6 +1,8 @@
 import { streamMode, msgUnpack, dataUnpack } from '../ws/wsParser';
 import _reject from 'lodash/reject'
 import _orderBy from 'lodash/orderBy'
+import _find from 'lodash/find'
+import _merge from 'lodash/merge'
 
 export default function displayResults(state = {}, action) {
 
@@ -22,7 +24,20 @@ export default function displayResults(state = {}, action) {
                 filteredArray.push(convertedData);
                 let sortedArray = _orderBy(filteredArray, ['FROMSYMBOL', 'TOSYMBOL'], ['asc', 'asc']);
 
-                return { ...state, currenciesUpdate: sortedArray }
+                let solvedConflicts = sortedArray.map(obj => {
+                    let findObj =  _find(state.currenciesUpdate, function(o) { return o.pairName == obj.pairName; });
+                    if (findObj) {
+                        let mergeObj = _merge(findObj, obj);
+
+                        return mergeObj;
+                    } else {
+
+                        return obj;
+                    }
+                });
+                 
+
+                return { ...state, currenciesUpdate: solvedConflicts }
             }     
         }        
 

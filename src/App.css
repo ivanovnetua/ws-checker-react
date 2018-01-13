@@ -45,3 +45,14 @@ body {
   filter: alpha(opacity=75);
   opacity: .75;
 }
+
+.panel.panel-default {
+  padding: 15px;
+  background: rgba(59, 59, 60, 0.6588235294117647);
+  color: #fff;
+}
+
+.panel-group {
+  margin-bottom: 20px;
+  margin-top: 50px;
+}

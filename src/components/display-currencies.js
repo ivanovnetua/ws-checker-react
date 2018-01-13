@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PairBlock from './pair-block'
 
 export default class DisplayCurrencies extends Component {
 
@@ -9,11 +10,10 @@ export default class DisplayCurrencies extends Component {
             return (
                 this.props.currenciesUpdate.map( pairObj => {
                     return (
-                        <div key={ pairObj.pairName }>
-                            <p>{ pairObj.pairName }</p>
-                        </div>
-                    )
 
+                        <PairBlock data={pairObj}></PairBlock>
+
+                    )
                 })
             )
 
