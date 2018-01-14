@@ -4,33 +4,39 @@ import { resourses } from '../resourses/resourses'
 
 export const getCurrenciesListAction = () => {
 
-    return dispatch => {
+    let promise = new Promise((resolve, reject) => {
         resourses.getCoinsList()
         .then(r => r.json())
         .then( data => {
             if(data.Response === 'Success') {
-                dispatch({
+                let action = {
                     type: "GET_CURRENCIES_LIST", 
                     message: data.Data 
-                })
+                };
+                resolve(action);
             } else {
-                // Todo: try to reload page pop-up
-                alert(`Response status ${ data.Response }`)
+                reject(new Error(`Response status ${ data.Response }`));
             }
         })
         .catch(function(err) {
-                // Todo: try to reload page pop-up
-                alert("Connection error")
-            });
-        }
+            reject(new Error(`"Connection error"`));
+        });
+
+    });
+
+    return promise
 };
 
 export const selectCurrenciesModalAction = (current) => {
     return dispatch => {
-        dispatch({
-            type: "CURRENCIES_MODAL_ACTION", 
-            selectCurrenciesModalView: !current
-        })
+        getCurrenciesListAction().then( result => {
+            dispatch(result);
+            dispatch({
+                type: "CURRENCIES_MODAL_ACTION", 
+                selectCurrenciesModalView: !current
+            })
+        });
+
     }
 };
 
@@ -58,11 +64,10 @@ export const findPairChainsAction = (selectedCurrencies) => {
             dispatch({
                 type: "FIND_PAIR_CHAINS",
                 findPairChains: result
-            })
-            dispatch(changeModalStepAction(2))
+            });
+            dispatch(changeModalStepAction(2));
 
         }).catch(function(err) {
-            // Todo: try to reload page pop-up
             alert("Connection error")
         });
 
@@ -91,10 +96,10 @@ export const displayResultsAction = (pairs) => {
             return _values(pair).join();
         });
         let state = getState();
+        dispatch(saveToLocalStorage(chanels));
         dispatch(subscribeToWS(chanels));
         dispatch(wsListener());
         dispatch(selectCurrenciesModalAction(state.selectCurrencies.selectCurrenciesModalView));
-
     }
 };
 
@@ -124,4 +129,15 @@ export const wsListener = () => {
         });
      }
 
+};
+
+export const saveToLocalStorage = (value) => {
+    return (dispatch, getState) => {
+        let state = getState();
+        try {
+            localStorage.setItem('subscribe_pairs', JSON.stringify(value));
+        } catch(e) {
+            console.log(`LocalStorage is undefined. Reason: ${e}`);
+        }
+     }
 };

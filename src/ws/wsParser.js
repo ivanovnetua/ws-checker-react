@@ -193,8 +193,7 @@ let displayData = function (current, from, tsym, fsym, pair) {
   let priceDirection = current.FLAGS;
 
   let displayedObj = {
-    pairName: pair,
-    updateTime: Date.now()
+    pairName: pair
   };
 
   for (let key in current) {

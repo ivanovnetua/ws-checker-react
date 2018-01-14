@@ -4,8 +4,6 @@ import { bindActionCreators } from 'redux'
 import { SocketProvider } from 'socket.io-react'
 import Grid  from 'react-bootstrap/lib/Grid'
 
-
-import CurrenciesList from '../components/currencies-list'
 import SelectCurrencies from '../components/select-currencies'
 import DisplayCurrencies from '../components/display-currencies'
 
@@ -49,7 +47,6 @@ class MonitoringContainer extends Component {
                         ></SelectCurrencies>   
                         }
                     </Grid>
-                    {/* <CurrenciesList></CurrenciesList> */}
                 </div>
             </SocketProvider>
         )

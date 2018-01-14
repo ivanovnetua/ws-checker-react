@@ -12,9 +12,7 @@ export default function getConstants() {
             "LASTVOLUMETO": "Last Trade Volume To: ",
             "VOLUME24HOUR": "24h Volume: ",
             "VOLUME24HOURTO": "24h VolumeTo: ",
-            "pairName": "Pair name: ",
-            "updateTime": "Update time: "
-
+            "pairName": "",
         }
     }
 }

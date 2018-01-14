@@ -56,3 +56,14 @@ body {
   margin-bottom: 20px;
   margin-top: 50px;
 }
+
+.pair-name {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.pair-label {
+  color: #919bf3;
+  font-weight: 200;
+}

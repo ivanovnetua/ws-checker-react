@@ -10,18 +10,12 @@ import SecondStep from './second-step'
 
 
 export default class SelectCurrencies extends Component {
-    componentDidMount() {
-        this.props.getCurrenciesList();
-    }
 
     render() {
         const currencies = this.props.currenciesInfo;
         const isCurrenciesModal = this.props.selectCurrenciesModal;
         const modalAction = this.props.selectCurrenciesModalToggle;
 
-        if (!currencies || (isCurrenciesModal == undefined) || (this.props.selectedCurrencies == undefined)) {
-            return <h4> Loading... </h4>
-        } else {
             return (
                 <Grid className="select-settings-section">
                     <p> For using application select setting firstime </p>
@@ -56,8 +50,7 @@ export default class SelectCurrencies extends Component {
                     </Modal>
                 </Grid>
             )
-        }
-
     }
+
 
 }

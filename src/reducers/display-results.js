@@ -35,8 +35,8 @@ export default function displayResults(state = {}, action) {
                         return obj;
                     }
                 });
-                 
 
+                
                 return { ...state, currenciesUpdate: solvedConflicts }
             }     
         }        
