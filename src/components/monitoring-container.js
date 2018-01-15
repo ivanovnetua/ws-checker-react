@@ -6,6 +6,7 @@ import Grid  from 'react-bootstrap/lib/Grid'
 
 import SelectCurrencies from '../components/select-currencies'
 import DisplayCurrencies from '../components/display-currencies'
+import Menu from '../components/menu'
 
 import { 
         getCurrenciesListAction, 
@@ -14,23 +15,31 @@ import {
         findPairChainsAction,
         addPairsToListAction,
         displayResultsAction,
-        callWsAction
+        checkSavedPairsAction
 } from '../actions/app-actions'
 
 
 
 class MonitoringContainer extends Component {
+    componentDidMount() {
+        this.props.checkSavedPairs();
+    }
 
     render() {
         return (
             <SocketProvider socket={ this.props.socket}>
                 <div className="App">
+                    { this.props.currenciesUpdate ? 
+                        <Menu
+                            openSettings = { this.props.selectCurrenciesModalToggle }
+                        ></Menu> 
+                    : null }
                     <Grid>
                         { this.props.currenciesUpdate ?
                             <DisplayCurrencies
                                 currenciesUpdate = { this.props.currenciesUpdate }
                             ></DisplayCurrencies>
-                        : 
+                        : null }
                         <SelectCurrencies 
                             getCurrenciesList={ this.props.getCurrenciesList }
                             currenciesInfo={ this.props.currenciesInfo }
@@ -44,8 +53,7 @@ class MonitoringContainer extends Component {
                             addPairsToList = { this.props.addPairsToList }
                             selectedPairs = { this.props.selectedPairs }
                             displayResults = { this.props.displayResults }
-                        ></SelectCurrencies>   
-                        }
+                        ></SelectCurrencies>
                     </Grid>
                 </div>
             </SocketProvider>
@@ -76,6 +84,6 @@ export default connect(
             findPairChains: bindActionCreators(findPairChainsAction, dispatch),
             addPairsToList: bindActionCreators(addPairsToListAction, dispatch),
             displayResults: bindActionCreators(displayResultsAction, dispatch),
-            callWsAction: bindActionCreators(callWsAction, dispatch)
+            checkSavedPairs: bindActionCreators(checkSavedPairsAction, dispatch)
         }
     })(MonitoringContainer);

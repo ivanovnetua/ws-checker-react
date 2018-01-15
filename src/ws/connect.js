@@ -10,6 +10,10 @@ export default class WS {
         this.socketUrl.emit('SubAdd', { subs: subscriptions })
     }
 
+    soketUnsubscribe(unSubscriptions = []) {
+        this.socketUrl.emit('SubRemove', { subs: unSubscriptions })
+    }
+
     soketOn(callback) {
         this.socketUrl.on("m", callback)
     }

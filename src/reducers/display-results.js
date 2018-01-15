@@ -8,6 +8,10 @@ export default function displayResults(state = {}, action) {
 
     // console.log(state, action);
 
+    if (action.type === 'SET_SAVED_STATE') {
+        return { ...state, savedSettings: action.savedState }
+    }
+
     if (action.type === 'UPDATE_WS_DATA') {
         let message = action.wsData;
         let messageType = message.substring(0, message.indexOf("~"));
@@ -36,7 +40,7 @@ export default function displayResults(state = {}, action) {
                     }
                 });
 
-                
+
                 return { ...state, currenciesUpdate: solvedConflicts }
             }     
         }        

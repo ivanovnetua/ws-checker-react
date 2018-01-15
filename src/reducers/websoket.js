@@ -7,17 +7,19 @@ const defaultWsState = {
     socketConnect: socketInit,
     socketEmit: socketInit.soketEmit.bind(socketInit),
     socketOn: socketInit.soketOn.bind(socketInit),
+    soketUnsubscribe: socketInit.soketUnsubscribe.bind(socketInit),
 };
 
 export default function websocket (state = defaultWsState, action) {
 
-    if (action.type === 'INITIATE_WEBSOKET') {
-        return state
-    }
+//todo: remove from dom after ubsub, reset subs after first select, view selected checkboxes in open modal
 
     if (action.type === 'SUBSCRIBE_TO_WS_CHANELS') {
-        state.socketEmit(action.chanels);
-        return state
+        if (action.chanels.unSubscribe) {
+            state.soketUnsubscribe(action.chanels.unSubscribe);
+        }
+        state.socketEmit(action.chanels.subscribe);
+        return { ...state, wsChanels: action.chanels.subscribe }
     }
 
     return state

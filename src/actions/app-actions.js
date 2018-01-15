@@ -1,5 +1,7 @@
 import _reject from 'lodash/reject'
 import _values from 'lodash/values'
+import _differenceWith from 'lodash/differenceWith'
+import _isEqual from 'lodash/isEqual'
 import { resourses } from '../resourses/resourses'
 
 export const getCurrenciesListAction = () => {
@@ -31,14 +33,22 @@ export const selectCurrenciesModalAction = (current) => {
     return dispatch => {
         getCurrenciesListAction().then( result => {
             dispatch(result);
-            dispatch({
-                type: "CURRENCIES_MODAL_ACTION", 
-                selectCurrenciesModalView: !current
-            })
+            dispatch(modalAction(current));
         });
 
     }
 };
+
+export const modalAction = (current) => {
+    return dispatch => {
+            dispatch(changeModalStepAction(1));
+            dispatch({
+                type: "CURRENCIES_MODAL_ACTION", 
+                selectCurrenciesModalView: !current
+            })
+    }
+
+    }
 
 export const addCurrencyToListAction = (selectedCurrency) => {
     return dispatch => {
@@ -99,7 +109,7 @@ export const displayResultsAction = (pairs) => {
         dispatch(saveToLocalStorage(chanels));
         dispatch(subscribeToWS(chanels));
         dispatch(wsListener());
-        dispatch(selectCurrenciesModalAction(state.selectCurrencies.selectCurrenciesModalView));
+        dispatch(modalAction(state.selectCurrencies.selectCurrenciesModalView));
     }
 };
 
@@ -111,10 +121,19 @@ export const callWsAction = () => {
     }
 };
 
-export const subscribeToWS = (chanels) => {
-    return {
-        type: "SUBSCRIBE_TO_WS_CHANELS",
-        chanels: chanels
+export const subscribeToWS = (chanels = []) => {
+
+    return (dispatch, getState) => {
+        let state = getState();
+        let unsubscribeChanels = _differenceWith(chanels, state.websocket.wsChanels, _isEqual);
+        dispatch({
+            type: "SUBSCRIBE_TO_WS_CHANELS",
+            chanels: {
+                subscribe: chanels,
+                unSubscribe: state.websocket.wsChanels
+            }
+        })
+        
     }
 };
 
@@ -134,10 +153,32 @@ export const wsListener = () => {
 export const saveToLocalStorage = (value) => {
     return (dispatch, getState) => {
         let state = getState();
+        let selectedSettings = [ ...state.selectCurrencies.selectedCurrencies ];
         try {
-            localStorage.setItem('subscribe_pairs', JSON.stringify(value));
+            localStorage.setItem('saved-chanels', JSON.stringify(value));
         } catch(e) {
             console.log(`LocalStorage is undefined. Reason: ${e}`);
         }
      }
 };
+
+export const checkSavedPairsAction = () => {
+    return dispatch => {
+        try {
+            let savedChanels = JSON.parse(localStorage.getItem('saved-chanels'));
+            dispatch(subscribeToWS(savedChanels));
+            dispatch(wsListener());
+        } catch(e) {
+            console.log(`LocalStorage is undefined. Reason: ${e}`);
+        }
+     }
+};
+
+export const setSavedState = (state = []) => {
+    return dispatch => {
+        dispatch({
+            type: "SET_SAVED_STATE",
+            savedState: state
+        })
+    }
+}
