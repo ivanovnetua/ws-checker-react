@@ -11,6 +11,10 @@ export default function displayResults(state = {}, action) {
     if (action.type === 'SET_SAVED_STATE') {
         return { ...state, savedSettings: action.savedState }
     }
+    
+    if (action.type === 'REMOVE_OLD_LISTS') {
+        return { ...state, currenciesUpdate: [] }
+    }
 
     if (action.type === 'UPDATE_WS_DATA') {
         let message = action.wsData;

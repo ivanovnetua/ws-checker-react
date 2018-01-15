@@ -125,27 +125,72 @@ export const subscribeToWS = (chanels = []) => {
 
     return (dispatch, getState) => {
         let state = getState();
-        let unsubscribeChanels = _differenceWith(chanels, state.websocket.wsChanels, _isEqual);
+
+        if (state.websocket.wsChanels) {
+            let unsubscribeChanels = _reject(state.websocket.wsChanels, function(c) { 
+                return chanels.some(el => {
+                    return c == el
+                });
+            });
+
+            if (unsubscribeChanels.length > 0) {
+                dispatch({
+                    type: "UNSUBSCRIBE_WS_CHANELS",
+                    chanels: {
+                        unSubscribe: unsubscribeChanels
+                    }
+                });
+
+                dispatch(removeOld(unsubscribeChanels));
+
+            }
+        }
+
         dispatch({
             type: "SUBSCRIBE_TO_WS_CHANELS",
             chanels: {
                 subscribe: chanels,
-                unSubscribe: state.websocket.wsChanels
             }
         })
         
     }
 };
 
+export const removeOld = (unsubscribeChanels) => {
+    return dispatch => {
+        const regexp = /^(5~CCCAGG)~([a-zA-Z]{3,})~([a-zA-Z]{3,})/;
+        let removePairs = [];
+
+        unsubscribeChanels.forEach(pair => {
+            let findedElement = pair.match(regexp);
+            removePairs.push(`${findedElement[2]}-${findedElement[3]}`);
+        })
+
+        dispatch({
+            type: "REMOVE_OLD_LISTS",
+            removeElements: removePairs
+        })
+
+     }
+
+};
+
 export const wsListener = () => {
     return (dispatch, getState) => {
         let state = getState();
         state.websocket.socketOn(message => {
+            dispatch(updateWsData(message))
+        });
+     }
+
+};
+
+export const updateWsData = (message) => {
+    return dispatch => {
             dispatch({
                 type: "UPDATE_WS_DATA",
                 wsData: message
            })
-        });
      }
 
 };
