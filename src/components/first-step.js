@@ -8,7 +8,6 @@ import CoinsTable from './coinsTable'
 export default class FirstStep extends Component {
 
     render() {
-
         return (
             <div className="step-1">
                 <Modal.Header closeButton>

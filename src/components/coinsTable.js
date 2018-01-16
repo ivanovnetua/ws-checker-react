@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/lib/Table'
 
 
 export default class CoinsTable extends Component {
+    document
 
     selectRow(e, currency) {
 
@@ -15,6 +16,10 @@ export default class CoinsTable extends Component {
 
     render() {
         const currencies = this.props.currencies;
+        this.props.selectedCurrencies.map( el => {
+            if (this.refs[el['Id']])
+                this.refs[el['Id']].checked = true;
+        })
 
         return (
             <Table striped bordered condensed hover responsive>
