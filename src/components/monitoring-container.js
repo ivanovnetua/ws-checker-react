@@ -7,6 +7,7 @@ import Grid  from 'react-bootstrap/lib/Grid'
 import SelectCurrencies from '../components/select-currencies'
 import DisplayCurrencies from '../components/display-currencies'
 import Menu from '../components/menu'
+import FirsVisitSection from '../components/first-visit'
 
 import { 
         getCurrenciesListAction, 
@@ -35,11 +36,18 @@ class MonitoringContainer extends Component {
                         ></Menu> 
                     : null }
                     <Grid>
-                        { this.props.currenciesUpdate ?
+                        { this.props.currenciesUpdate
+                            ?
                             <DisplayCurrencies
                                 currenciesUpdate = { this.props.currenciesUpdate }
                             ></DisplayCurrencies>
-                        : null }
+                            : 
+                                <FirsVisitSection
+                                    selectCurrenciesModalToggle = { this.props.selectCurrenciesModalToggle }
+                                    selectCurrenciesModal = { this.props.selectCurrenciesModalView }
+                                ></FirsVisitSection>
+                        
+                        }
                         <SelectCurrencies 
                             getCurrenciesList={ this.props.getCurrenciesList }
                             currenciesInfo={ this.props.currenciesInfo }

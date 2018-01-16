@@ -129,7 +129,7 @@ export const subscribeToWS = (chanels = []) => {
         if (state.websocket.wsChanels) {
             let unsubscribeChanels = _reject(state.websocket.wsChanels, function(c) { 
                 return chanels.some(el => {
-                    return c == el
+                    return !c == el
                 });
             });
 
@@ -141,7 +141,7 @@ export const subscribeToWS = (chanels = []) => {
                     }
                 });
 
-                dispatch(removeOld(unsubscribeChanels));
+                dispatch(removeOld());
 
             }
         }
@@ -156,21 +156,11 @@ export const subscribeToWS = (chanels = []) => {
     }
 };
 
-export const removeOld = (unsubscribeChanels) => {
+export const removeOld = () => {
     return dispatch => {
-        const regexp = /^(5~CCCAGG)~([a-zA-Z]{3,})~([a-zA-Z]{3,})/;
-        let removePairs = [];
-
-        unsubscribeChanels.forEach(pair => {
-            let findedElement = pair.match(regexp);
-            removePairs.push(`${findedElement[2]}-${findedElement[3]}`);
-        })
-
         dispatch({
             type: "REMOVE_OLD_LISTS",
-            removeElements: removePairs
         })
-
      }
 
 };

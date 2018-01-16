@@ -18,14 +18,6 @@ export default class SelectCurrencies extends Component {
 
             return (
                 <Grid className="select-settings-section">
-                    <p> For using application select setting firstime </p>
-                    <Button
-                        bsStyle="primary"
-                        bsSize="large"
-                        onClick={() => { modalAction(isCurrenciesModal) }}
-                    >
-                        Select currencies for monitoring
-                    </Button>
 
                     <Modal show={isCurrenciesModal} onHide={() => { modalAction(isCurrenciesModal) }}>
                         { this.props.modalStepActive == 1 ? 

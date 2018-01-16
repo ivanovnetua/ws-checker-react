@@ -12,11 +12,10 @@ const defaultWsState = {
 
 export default function websocket (state = defaultWsState, action) {
 
-//todo: remove from dom after ubsub, reset subs after first select, view selected checkboxes in open modal
 
     if (action.type === 'SUBSCRIBE_TO_WS_CHANELS') {
         state.socketEmit(action.chanels.subscribe);
-        
+
         return { ...state, wsChanels: action.chanels.subscribe }
     }
 
